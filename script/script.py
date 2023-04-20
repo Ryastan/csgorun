@@ -106,10 +106,11 @@ class ScriptMain:
     def check_crashes(self):
         try:
             self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2).json()
-        except requests.exceptions.ReadTimeout:
+        except:
             with open('script\\proxies.txt') as proxies:
                 self.proxies = {'https': f'https://{random.choice(proxies.readlines()).strip()}'}
-            print('Смена прокси')
+            print('Спим')
+            time.sleep(60)
 
         self.last_crash = self.crashes['data']['game']['history'][0]
         self.last_crash_x = self.last_crash['crash']

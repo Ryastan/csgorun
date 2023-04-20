@@ -1,3 +1,5 @@
 Default/
 venv/
 test.py
+config.ini
+crash_log.txt
