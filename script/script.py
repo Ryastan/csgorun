@@ -27,7 +27,6 @@ class ScriptMain:
         self.x = self.config["SETTINGS"]["x"]
         self.visible = self.config["SETTINGS"]["visible"]
         self.auth_status = self.config["SETTINGS"]["auth"]
-        self.count_crashes = self.config["SETTINGS"]['crashes']
         self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null").json()
         self.last_crash = self.crashes['data']['game']['history'][0]
         self.last_crash_id = self.last_crash['id']
