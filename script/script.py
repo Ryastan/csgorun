@@ -109,6 +109,7 @@ class ScriptMain:
         except requests.exceptions.ReadTimeout:
             with open('script\\proxies.txt') as proxies:
                 self.proxies = {'https': f'http://{random.choice(proxies.readlines()).strip()}'}
+            print('Смена прокси')
 
         self.last_crash = self.crashes['data']['game']['history'][0]
         self.last_crash_x = self.last_crash['crash']
