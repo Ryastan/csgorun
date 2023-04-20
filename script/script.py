@@ -23,7 +23,7 @@ class ScriptMain:
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         dir_path = os.getcwd()
         self.config = configparser.ConfigParser()
-        self.config.read(f"{dir_path}\\config.ini")
+        self.config.read(f"{dir_path}\\script\\config.ini")
         self.url = self.config["SETTINGS"]["url"]
         self.x = self.config["SETTINGS"]["x"]
         self.visible = self.config["SETTINGS"]["visible"]
@@ -34,7 +34,7 @@ class ScriptMain:
         self.count = 0
         self.last_crash = ''
 
-        with open('proxies.txt') as proxies:
+        with open('script\\proxies.txt') as proxies:
             self.proxy = random.choice(proxies.readlines()).strip()
 
         ua = UserAgent()
@@ -44,7 +44,7 @@ class ScriptMain:
         self.options.add_argument('--start-maximized')
         self.options.add_argument('--ignore-certificate-errors-spki-list')
 
-        self.options.add_argument(f"user-data-dir={dir_path}\\Default")
+        self.options.add_argument(f"user-data-dir={dir_path}\\script\\Default")
 
         if self.visible == '0':
             self.options.add_argument('--headless')
@@ -83,7 +83,7 @@ class ScriptMain:
         self.last_crash = crash
         output = f"\n{last_crash_x}x IT WAS {crash} ID:{last_crash_id} TIME:{datetime.now()}"
 
-        with open('crash_log.txt', 'a') as file:
+        with open('script\\crash_log.txt', 'a') as file:
             file.write(output)
     
     def play(self, status):
@@ -107,7 +107,7 @@ class ScriptMain:
         try:
             self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxy).json()
         except requests.exceptions.ReadTimeout:
-            with open('proxies.txt') as proxies:
+            with open('script\\proxies.txt') as proxies:
                 self.proxy = random.choice(proxies.readlines()).strip()
 
         self.last_crash = self.crashes['data']['game']['history'][0]
