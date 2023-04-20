@@ -35,7 +35,7 @@ class ScriptMain:
         self.last_crash = ''
 
         with open('script\\proxies.txt') as proxies:
-            self.proxy = random.choice(proxies.readlines()).strip()
+            self.proxies = {'https': f'http://{random.choice(proxies.readlines()).strip()}'}
 
         ua = UserAgent()
         self.options = Options()
@@ -105,10 +105,10 @@ class ScriptMain:
 
     def check_crashes(self):
         try:
-            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxy).json()
+            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxies).json()
         except requests.exceptions.ReadTimeout:
             with open('script\\proxies.txt') as proxies:
-                self.proxy = random.choice(proxies.readlines()).strip()
+                self.proxies = {'https': f'http://{random.choice(proxies.readlines()).strip()}'}
 
         self.last_crash = self.crashes['data']['game']['history'][0]
         self.last_crash_x = self.last_crash['crash']
