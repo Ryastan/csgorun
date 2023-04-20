@@ -105,7 +105,7 @@ class ScriptMain:
 
     def check_crashes(self):
         try:
-            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxies).json()
+            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2).json()
         except requests.exceptions.ReadTimeout:
             with open('script\\proxies.txt') as proxies:
                 self.proxies = {'https': f'https://{random.choice(proxies.readlines()).strip()}'}
@@ -130,7 +130,7 @@ class ScriptMain:
                     print("QUADRO CRASH!!!!!!!!")
                     self.save_new_crash('quadro')
                     return "quadro"
-            elif float(self.last_crash_x) > 1.2 and self.count == 3:
+            elif float(self.last_crash_x) >= 1.2 and self.count == 3:
                 self.pick_items()
                 self.count = 0
             else:
