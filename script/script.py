@@ -35,7 +35,7 @@ class ScriptMain:
         self.last_crash = ''
 
         with open('script\\proxies.txt') as proxies:
-            self.proxies = {'https': f'http://{random.choice(proxies.readlines()).strip()}'}
+            self.proxies = {'https': f'https://{random.choice(proxies.readlines()).strip()}'}
 
         ua = UserAgent()
         self.options = Options()
@@ -108,7 +108,7 @@ class ScriptMain:
             self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxies).json()
         except requests.exceptions.ReadTimeout:
             with open('script\\proxies.txt') as proxies:
-                self.proxies = {'https': f'http://{random.choice(proxies.readlines()).strip()}'}
+                self.proxies = {'https': f'https://{random.choice(proxies.readlines()).strip()}'}
             print('Смена прокси')
 
         self.last_crash = self.crashes['data']['game']['history'][0]
