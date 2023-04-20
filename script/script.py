@@ -8,6 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from datetime import datetime
 from fake_useragent import UserAgent
 
+import random
 import urllib3
 import os
 import sys
@@ -32,6 +33,9 @@ class ScriptMain:
         self.last_crash_id = self.last_crash['id']
         self.count = 0
         self.last_crash = ''
+
+        with open('proxies.txt') as proxies:
+            self.proxy = random.choice(proxies.readlines()).strip()
 
         ua = UserAgent()
         self.options = Options()
@@ -101,11 +105,10 @@ class ScriptMain:
 
     def check_crashes(self):
         try:
-            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2).json()
+            self.crashes = requests.get("https://api.csgorun.pro/current-state?montaznayaPena=null", verify=False, timeout=2, proxies=self.proxy).json()
         except requests.exceptions.ReadTimeout:
-            time.sleep(2)
-        # with open("crashes.json", 'w') as file:
-        #     json.dump(self.crashes, file, indent=2)
+            with open('proxies.txt') as proxies:
+                self.proxy = random.choice(proxies.readlines()).strip()
 
         self.last_crash = self.crashes['data']['game']['history'][0]
         self.last_crash_x = self.last_crash['crash']
