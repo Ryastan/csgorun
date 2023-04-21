@@ -35,7 +35,7 @@ class ScriptMain:
         self.last_crash = ''
 
         with open('script\\urls.txt') as urls:
-            self.url_api = f'https://{random.choice(urls.readlines()).strip()}/current-state?montaznayaPena=null'
+            self.url_api = f'https://api.{random.choice(urls.readlines()).strip()}/current-state?montaznayaPena=null'
 
         ua = UserAgent()
         self.options = Options()
@@ -106,10 +106,11 @@ class ScriptMain:
     def check_crashes(self):
         try:
             self.crashes = requests.get(f"{self.url_api}", verify=False, timeout=2).json()
-        except:
+        except Exception as ex:
             with open('script\\urls.txt') as urls:
-                self.url_api = f'https://{random.choice(urls.readlines()).strip()}/current-state?montaznayaPena=null'
+                self.url_api = f'https://api.{random.choice(urls.readlines()).strip()}/current-state?montaznayaPena=null'
             print('Меняем API')
+            print(ex)
             time.sleep(1)
 
         self.last_crash = self.crashes['data']['game']['history'][0]
